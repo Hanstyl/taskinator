@@ -56,9 +56,6 @@ var taskFormHandler = function (event) {
 
 
 var createTaskEl = function (taskDataObj) {
-    console.log(taskDataObj);
-    console.log(taskDataObj.status);
-
     // Create list item
     var listItemEl = document.createElement("li");      //Create a new task item
     listItemEl.className = "task-item";                 //Style the new task item
@@ -80,6 +77,8 @@ var createTaskEl = function (taskDataObj) {
     taskDataObj.id = taskIdCounter;
 
     tasks.push(taskDataObj);
+
+    saveTasks();
 
     // add entire list item to list
     tasksToDoEl.appendChild(listItemEl);
@@ -187,6 +186,8 @@ var completeEditTask = function (taskName, taskType, taskId) {
         }
     };
 
+    saveTasks();
+
 
     alert("Task Updated!");
 
@@ -215,6 +216,7 @@ var deleteTask = function (taskId) {
     // reassign tasks array to be the same as updatedTaskArr
     tasks = updatedTaskArr;
 
+    saveTasks();
 };
 
 
@@ -245,8 +247,14 @@ var taskStatusChangeHandler = function (event) {
             tasks[i].status = statusValue;
         }
     }
+
+    saveTasks();
 };
 
+// Saves tasks to local storage
+var saveTasks = function () {
+    localStorage.setItem("tasks", JSON.stringify(tasks)); //without JSON.stringify, it gets locally stored as "object, object"
+}
 
 
 
